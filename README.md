@@ -22,16 +22,21 @@ The included GitHub Actions workflow generates `public/firebase-config.js` from 
 
 ### Local development
 
-Copy `public/firebase-config.example.js` to `public/firebase-config.js` and fill in your Firebase web app values. That file is gitignored, so it stays local.
+Copy `public/firebase-config.example.js` to `public/firebase-config.js` and fill in your Firebase web app values.
 
-> Note: Firebase's client-side web config (API key, project ID, etc.) isn't a true secret — it's normally safe to ship in a public client bundle, since access is actually controlled by your [Realtime Database security rules](firebase-database.rules.json) and Firebase Auth, not by hiding this config. Keeping it out of the repo here is mainly about tidiness/not having it grep-able, not a real security boundary — make sure your database rules are locked down regardless.
+### Tests
+
+Pure logic (deck values, average calculation, status text, HTML escaping) lives in `public/logic.js` and is covered by unit tests in `public/logic.test.js`, run with [Vitest](https://vitest.dev):
+
+```
+npm install
+npm test
+```
 
 ## What it does
 
 - Uses Firebase Realtime Database's live connection to synchronize players and votes in real time.
 - Allows each player to choose a name and room code.
 - Limits each room to five seats.
-- Keeps votes hidden until Reveal estimates is selected.
+- Keeps votes hidden until `Reveal estimates` is selected.
 - Starts a fresh round without removing the room's players.
-
-Rooms are stored in Firebase. A player automatically releases their seat when they disconnect.

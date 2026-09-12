@@ -2,11 +2,11 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/fireba
 import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { getDatabase, onDisconnect, onValue, ref, runTransaction, update } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
 import { firebaseConfig } from "./firebase-config.js";
+import { cards, escapeHtml, calculateAverage, formatStatus } from "./logic.js";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const database = getDatabase(app);
-const cards = ["1", "2", "3", "4", "5", "8", "?", "☕"];
 const joinScreen = document.querySelector("#join-screen");
 const gameScreen = document.querySelector("#game-screen");
 const deck = document.querySelector("#deck");
@@ -66,7 +66,7 @@ async function joinRoom() {
 
 function render() {
   const voted = state.players.filter((player) => player.hasVoted).length;
-  status.textContent = state.revealed ? "Estimates revealed" : `${voted} of ${state.players.length} estimates selected`;
+  status.textContent = formatStatus(state);
   seats.innerHTML = "";
   [...state.players, ...Array(Math.max(0, 5 - state.players.length)).fill(null)].forEach((player, index) => {
     const seat = document.createElement("article");
@@ -76,12 +76,9 @@ function render() {
       : `<div class="empty-seat">Seat ${index + 1}<span>Open</span></div>`;
     seats.append(seat);
   });
-  const numericVotes = state.players.map((player) => Number(player.vote)).filter((vote) => Number.isFinite(vote));
-  average.classList.toggle("hidden", !state.revealed || numericVotes.length === 0);
-  if (state.revealed && numericVotes.length > 0) {
-    const mean = numericVotes.reduce((sum, vote) => sum + vote, 0) / numericVotes.length;
-    average.textContent = `Average: ${Math.ceil(mean)}`;
-  }
+  const roundedAverage = calculateAverage(state.players);
+  average.classList.toggle("hidden", !state.revealed || roundedAverage === null);
+  if (state.revealed && roundedAverage !== null) average.textContent = `Average: ${roundedAverage}`;
   document.querySelectorAll(".card").forEach((button) => {
     button.classList.toggle("selected", button.textContent === myVote && !state.revealed);
     button.disabled = state.revealed;
@@ -90,7 +87,6 @@ function render() {
   revealButton.textContent = state.revealed ? "Estimates revealed" : "Reveal estimates";
 }
 
-function escapeHtml(value) { return String(value).replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[character]); }
 deck.addEventListener("click", async (event) => {
   const value = event.target.closest(".card")?.textContent;
   if (value && !state.revealed) await update(playerRef, { vote: value });
