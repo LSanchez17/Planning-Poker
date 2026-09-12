@@ -1,44 +1,51 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#101828" />
-    <title>DTC Planning Poker</title>
-    <link rel="stylesheet" href="./styles.css" />
-  </head>
-  <body>
-    <main>
-      <section class="join-card" id="join-screen" aria-labelledby="join-title">
-        <p class="eyebrow">DTC · DELIVERY ROOM</p>
-        <h1 id="join-title">Planning Poker</h1>
-        <p class="intro">Join a room, choose your estimate, then reveal together.</p>
-        <form id="join-form">
-          <label>Your name<input id="name" maxlength="30" autocomplete="name" required placeholder="e.g. Luis" /></label>
-          <label>Room code<input id="room-code" maxlength="20" required placeholder="e.g. SPRINT-12" /></label>
-          <button type="submit">Take a seat</button>
-          <p class="error" id="join-error" role="alert"></p>
-        </form>
-        <p class="note">Up to five players per room.</p>
-      </section>
 
-      <section class="game hidden" id="game-screen" aria-live="polite">
-        <header class="room-header">
-          <div><p class="eyebrow">PLANNING ROOM</p><h1 id="room-title"></h1></div>
-          <div class="connection"><span></span>Live</div>
-        </header>
-        <div class="status-row">
-          <p id="status">Waiting for estimates</p>
-          <div class="actions"><button class="secondary" id="reset">New round</button><button id="reveal">Reveal estimates</button></div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#101828" />
+  <title>Planning Poker</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+  <main>
+    <section class="join-card" id="join-screen" aria-labelledby="join-title">
+      <p class="eyebrow">WAITING ROOM</p>
+      <h1 id="join-title">Planning Poker</h1>
+      <p class="intro">Join a room, choose your estimate, then reveal together.</p>
+      <form id="join-form">
+        <label>Your name<input id="name" maxlength="30" autocomplete="name" required placeholder="e.g. Luis" /></label>
+        <label>Room code<input id="room-code" maxlength="20" required placeholder="e.g. SPRINT-12" /></label>
+        <button type="submit">Take a seat</button>
+        <p class="error" id="join-error" role="alert"></p>
+      </form>
+      <p class="note">Up to five players per room.</p>
+    </section>
+
+    <section class="game hidden" id="game-screen" aria-live="polite">
+      <header class="room-header">
+        <div>
+          <p class="eyebrow">PLANNING ROOM</p>
+          <h1 id="room-title"></h1>
         </div>
-        <section class="seats" id="seats" aria-label="Players"></section>
-        <p class="average hidden" id="average"></p>
-        <section class="deck-section" aria-labelledby="deck-title">
-          <p class="eyebrow" id="deck-title">YOUR ESTIMATE</p>
-          <div class="deck" id="deck"></div>
-        </section>
+        <div class="connection"><span></span>Live</div>
+      </header>
+      <div class="status-row">
+        <p id="status">Waiting for estimates</p>
+        <div class="actions"><button class="secondary" id="reset">New round</button><button id="reveal">Reveal
+            estimates</button></div>
+      </div>
+      <section class="seats" id="seats" aria-label="Players"></section>
+      <p class="average hidden" id="average"></p>
+      <section class="deck-section" aria-labelledby="deck-title">
+        <p class="eyebrow" id="deck-title">YOUR ESTIMATE</p>
+        <div class="deck" id="deck"></div>
       </section>
-    </main>
-    <script type="module" src="./app.js"></script>
-  </body>
+    </section>
+  </main>
+  <script type="module" src="./app.js"></script>
+</body>
+
 </html>

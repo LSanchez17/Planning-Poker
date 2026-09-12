@@ -22,8 +22,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: npm ci
-      - run: npm test
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn test
 
   deploy:
     needs: test

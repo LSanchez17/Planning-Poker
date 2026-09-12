@@ -1,4 +1,4 @@
-# DTC Planning Poker
+# Planning Poker
 
 A small real-time planning poker room for up to five participants, designed for GitHub Pages.
 
@@ -8,7 +8,7 @@ A small real-time planning poker room for up to five participants, designed for 
 2. Enable **Anonymous** sign-in in Firebase Authentication.
 3. Create a Realtime Database.
 4. Copy `firebase-database.rules.json` into the Realtime Database Rules editor and publish it.
-5. Create a GitHub repository named `dtc_planning_poker`, push this project to its `main` branch, then set **Settings → Pages → Build and deployment → GitHub Actions**.
+5. Create a GitHub repository named `planning_poker`, push this project to its `main` branch, then set **Settings → Pages → Build and deployment → GitHub Actions**.
 6. In the repo's **Settings → Secrets and variables → Actions**, add these repository secrets from your Firebase web app config:
    - `FIREBASE_API_KEY`
    - `FIREBASE_AUTH_DOMAIN`
