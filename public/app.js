@@ -12,6 +12,7 @@ const gameScreen = document.querySelector("#game-screen");
 const deck = document.querySelector("#deck");
 const seats = document.querySelector("#seats");
 const status = document.querySelector("#status");
+const average = document.querySelector("#average");
 const revealButton = document.querySelector("#reveal");
 const resetButton = document.querySelector("#reset");
 let myVote = null;
@@ -75,6 +76,12 @@ function render() {
       : `<div class="empty-seat">Seat ${index + 1}<span>Open</span></div>`;
     seats.append(seat);
   });
+  const numericVotes = state.players.map((player) => Number(player.vote)).filter((vote) => Number.isFinite(vote));
+  average.classList.toggle("hidden", !state.revealed || numericVotes.length === 0);
+  if (state.revealed && numericVotes.length > 0) {
+    const mean = numericVotes.reduce((sum, vote) => sum + vote, 0) / numericVotes.length;
+    average.textContent = `Average: ${Math.ceil(mean)}`;
+  }
   document.querySelectorAll(".card").forEach((button) => {
     button.classList.toggle("selected", button.textContent === myVote && !state.revealed);
     button.disabled = state.revealed;
