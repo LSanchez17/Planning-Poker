@@ -6,7 +6,7 @@ import { firebaseConfig } from "./firebase-config.js";
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const database = getDatabase(app);
-const cards = ["0", "½", "1", "2", "3", "5", "8", "13", "21", "?", "☕"];
+const cards = ["1", "2", "3", "4", "5", "8", "?", "☕"];
 const joinScreen = document.querySelector("#join-screen");
 const gameScreen = document.querySelector("#game-screen");
 const deck = document.querySelector("#deck");
