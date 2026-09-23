@@ -17,7 +17,7 @@ export function renderRoom({ state, playerId, myVote, elements }) {
 
   seats.innerHTML = "";
 
-  [...state.players, ...Array(Math.max(0, 5 - state.players.length)).fill(null)].forEach((player, index) => {
+  [...state.players, ...Array(Math.max(0, 7 - state.players.length)).fill(null)].forEach((player, index) => {
     const seat = document.createElement("article");
     seat.className = `seat ${player ? "occupied" : "empty"}`;
     seat.innerHTML = player
