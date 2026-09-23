@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cards, escapeHtml, calculateAverage, formatStatus } from "./logic.js";
+import { cards, escapeHtml, calculateAverage, formatStatus, isUnanimous } from "./logic.js";
 
 describe("cards", () => {
   it("has the supported deck values", () => {
@@ -42,6 +42,28 @@ describe("calculateAverage", () => {
 
   it("returns the exact value for a single voter", () => {
     expect(calculateAverage([{ vote: "5" }])).toBe(5);
+  });
+});
+
+describe("isUnanimous", () => {
+  it("is false for an empty room", () => {
+    expect(isUnanimous([])).toBe(false);
+  });
+
+  it("is false when anyone hasn't voted yet", () => {
+    expect(isUnanimous([{ vote: "5" }, { vote: null }])).toBe(false);
+  });
+
+  it("is false when votes differ", () => {
+    expect(isUnanimous([{ vote: "5" }, { vote: "8" }])).toBe(false);
+  });
+
+  it("is true when everyone picked the same value", () => {
+    expect(isUnanimous([{ vote: "5" }, { vote: "5" }, { vote: "5" }])).toBe(true);
+  });
+
+  it("is true for a single voter", () => {
+    expect(isUnanimous([{ vote: "3" }])).toBe(true);
   });
 });
 

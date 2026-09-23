@@ -11,6 +11,13 @@ export function calculateAverage(players) {
   return Math.ceil(mean);
 }
 
+export function isUnanimous(players) {
+  if (players.length === 0) return false;
+  const votes = players.map((player) => player.vote);
+  if (votes.some((vote) => vote == null)) return false;
+  return votes.every((vote) => vote === votes[0]);
+}
+
 export function formatStatus(state) {
   if (state.revealed) return "Estimates revealed";
   const voted = state.players.filter((player) => player.hasVoted).length;

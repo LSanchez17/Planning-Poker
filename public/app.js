@@ -1,6 +1,7 @@
-import { cards } from "./logic.js";
+import { cards, isUnanimous } from "./logic.js";
 import { joinRoom, subscribeToRoom, castVote, revealEstimates, startNewRound } from "./room.js";
 import { buildDeck, renderRoom } from "./render.js";
+import { launchConfetti } from "./confetti.js";
 
 const joinScreen = document.querySelector("#join-screen");
 const gameScreen = document.querySelector("#game-screen");
@@ -10,12 +11,14 @@ const status = document.querySelector("#status");
 const average = document.querySelector("#average");
 const revealButton = document.querySelector("#reveal");
 const resetButton = document.querySelector("#reset");
+const confettiCanvas = document.querySelector("#confetti");
 
 let myVote = null;
 let state = null;
 let playerId = null;
 let playerRef = null;
 let roomRef = null;
+let celebratedRound = false;
 
 buildDeck(deck, cards);
 
@@ -47,6 +50,13 @@ async function handleJoin() {
 
 function render() {
   renderRoom({ state, playerId, myVote, elements: { status, seats, average, revealButton } });
+
+  if (!state.revealed) {
+    celebratedRound = false;
+  } else if (!celebratedRound && isUnanimous(state.players)) {
+    celebratedRound = true;
+    launchConfetti(confettiCanvas);
+  }
 }
 
 deck.addEventListener("click", async (event) => {
