@@ -17,7 +17,7 @@ export async function joinRoom(name, roomCode) {
     room.players ??= {};
     const otherPlayers = Object.entries(room.players).filter(([id]) => id !== playerId).map(([, player]) => player);
     if (otherPlayers.some((player) => player.name?.toLowerCase() === name.toLowerCase())) return;
-    if (!room.players[playerId] && otherPlayers.length >= 5) return;
+    if (!room.players[playerId] && otherPlayers.length >= 7) return;
     room.players[playerId] = { name, vote: null };
     return room;
   });
