@@ -16,6 +16,7 @@ const confettiCanvas = document.querySelector("#confetti");
 let myVote = null;
 let state = null;
 let playerId = null;
+let playerName = null;
 let playerRef = null;
 let roomRef = null;
 let celebratedRound = false;
@@ -33,6 +34,7 @@ async function handleJoin() {
   if (!name || !roomCode) throw new Error("Enter your name and a room code.");
 
   const joined = await joinRoom(name, roomCode);
+  playerName = name;
   playerId = joined.playerId;
   roomRef = joined.roomRef;
   playerRef = joined.playerRef;
@@ -61,7 +63,7 @@ function render() {
 
 deck.addEventListener("click", async (event) => {
   const value = event.target.closest(".card")?.textContent;
-  if (value && !state.revealed) await castVote(playerRef, value);
+  if (value && !state.revealed) await castVote(playerRef, value, playerName);
 });
 revealButton.addEventListener("click", () => revealEstimates(roomRef));
 resetButton.addEventListener("click", () => startNewRound(roomRef));

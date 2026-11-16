@@ -40,8 +40,10 @@ export function subscribeToRoom(roomRef, onRoomState) {
   });
 }
 
-export function castVote(playerRef, value) {
-  return update(playerRef, { vote: value });
+export function castVote(playerRef, value, name) {
+  // Always write the name too: if onDisconnect removed this node after a
+  // network blip, a vote-only update would recreate it without a name.
+  return update(playerRef, { name, vote: value });
 }
 
 export function revealEstimates(roomRef) {
